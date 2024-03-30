@@ -1,26 +1,31 @@
-import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { deleteTask, patchTask } from "../../api/api";
+import EditTaskBtn from "./EditTaskBtn";
 
-function TaskCard() {
+function TaskCard(props) {
+  const { _id, title, description, isDone, createdAt } = props.task;
   return (
     <div className="bg-primary text-white h-min rounded-xl p-4 text-left">
-      <div className="flex justify-around">
-        <MdEdit
-          className="text-rose-700 cursor-pointer hover:text-rose-900"
-          size={23}
-        />
+      <div className="flex justify-between">
+        <h1 className="font-black text-xl text-center">{title}</h1>
 
-        <h1 className="font-black text-xl text-center">Task-1</h1>
-        <input
-          type="checkbox"
-          className="checkbox [--chkbg:oklch(var(--a))] [--chkfg:oklch(var(--p))] border-2 border-teal-400"
-        />
+        <div className="flex gap-2">
+          <EditTaskBtn task={props.task} id={_id} />
+          <MdDelete
+            className="text-red-700 cursor-pointer hover:text-rose-900"
+            size={23}
+            onClick={() => deleteTask(_id)}
+          />
+          <input
+            type="checkbox"
+            className={`checkbox checked border-2 border-teal-400 [--chkbg:oklch(var(--a))] [--chkfg:oklch(var(--p))] `}
+            defaultChecked={isDone}
+            onChange={() => patchTask({ isDone: !isDone }, _id)}
+          />
+        </div>
       </div>
-      <h3 className="font-bold text-base-100">{new Date().toDateString()}</h3>
-      <p className="font-semibold text-rose-200">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores culpa
-        maxime consequuntur quo! Quod laboriosam veritatis quam quasi earum
-        commodi.
-      </p>
+      <h3 className="font-bold text-base-100">{createdAt}</h3>
+      <p className="font-semibold text-rose-200">{description}</p>
     </div>
   );
 }

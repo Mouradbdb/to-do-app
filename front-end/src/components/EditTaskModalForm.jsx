@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   handelDescriptionChange,
   handelTitleChange,
   handelIsDoneChange,
 } from "./controllers/modalFormControllers";
-import { createTask } from "../../api/api";
+import { patchTask } from "../../api/api";
 
-function ModalForm() {
-  const [title, setTitle] = useState("title");
-  const [description, setDescription] = useState("description");
+function EditTaskModalForm(props) {
+  const [title, setTitle] = useState("new task name");
+  const [description, setDescription] = useState("new description");
   let [isDone, setIsDone] = useState(false);
-
-  const postData = { title: title, description: description, isDone: isDone };
+  const patchData = { title: title, description: description, isDone: isDone };
 
   return (
     <div className="flex flex-col items-center gap-8 mt-6">
@@ -34,6 +33,7 @@ function ModalForm() {
               type="checkbox"
               className="checkbox checkbox-secondary"
               checked={isDone}
+              value={isDone}
               onChange={() => handelIsDoneChange(setIsDone)}
             />
           </label>
@@ -41,7 +41,7 @@ function ModalForm() {
         <button
           className="btn btn-outline"
           onClick={() => {
-            createTask(postData);
+            
           }}
         >
           Add
@@ -51,4 +51,4 @@ function ModalForm() {
   );
 }
 
-export default ModalForm;
+export default EditTaskModalForm;
